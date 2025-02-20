@@ -4,6 +4,7 @@ namespace App\Front\Publisher\Http\Controllers\Auth;
 
 use App\Front\Publisher\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -25,4 +26,13 @@ class ResetPasswordController extends Controller
      *
      */
     use AuthRedirect;
+
+    public function showResetForm(Request $request)
+    {
+        $token = $request->route()->parameter('token');
+
+        return view('publisher.auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
 }
