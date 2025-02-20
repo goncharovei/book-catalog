@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Front\Publisher\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-class HomeController extends Controller
+class CabinetController extends Controller
 {
     /**
      * Create a new controller instance.

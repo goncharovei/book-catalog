@@ -1,11 +1,10 @@
 <?php
 
+use App\Front\Publisher\Http\Controllers\CabinetController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::namespace('App\Front\Publisher\Http\Controllers')->group(function (){
+    Auth::routes();
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('cabinet', [CabinetController::class, 'index'])->name('publisher.cabinet.index');

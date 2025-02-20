@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Front\Publisher\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Front\Publisher\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerificationController extends Controller
@@ -23,9 +23,8 @@ class VerificationController extends Controller
     /**
      * Where to redirect users after verification.
      *
-     * @var string
      */
-    protected $redirectTo = '/home';
+    use AuthRedirect;
 
     /**
      * Create a new controller instance.
