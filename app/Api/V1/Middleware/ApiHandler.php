@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Common\Http\Middleware;
+namespace App\Api\V1\Middleware;
 
-use App\Api\V1\Middleware\ApiMiddleware;
 use Illuminate\Foundation\Configuration\Middleware;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;

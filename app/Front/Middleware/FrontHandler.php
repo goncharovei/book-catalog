@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Common\Http\Middleware;
+namespace App\Front\Middleware;
 
-use App\Front\Middleware\FrontMiddleware;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
