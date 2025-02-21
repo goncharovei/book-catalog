@@ -2,7 +2,7 @@
 
 namespace App\Front\Publisher\Http\Controllers\Auth;
 
-use App\Common\Models\User;
+use App\Common\Models\Publisher;
 use App\Front\Publisher\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -63,11 +63,11 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Common\Models\User
+     * @return \App\Common\Models\Publisher
      */
     protected function create(array $data)
     {
-        return User::create([
+        return Publisher::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
