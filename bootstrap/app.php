@@ -1,8 +1,9 @@
 <?php
 
+use App\Common\Http\Middleware\Handler as MiddlewareHandler;
+use App\Common\Service\SiteSide;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
-use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -11,9 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware) {
-        $middleware->redirectGuestsTo(fn () => route('publisher.auth.login'));
-    })
+    ->withMiddleware(new MiddlewareHandler(SiteSide::getInstance()))
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
