@@ -6,7 +6,9 @@ use App\Common\Models\Publisher;
 use App\Front\Publisher\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Contracts\View\View;
 
 class RegisterController extends Controller
 {
@@ -39,7 +41,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): View
     {
         return view('publisher.auth.register');
     }
@@ -47,15 +49,15 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param array $data
+     * @return Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data): Validator
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
     }
 
@@ -63,9 +65,9 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Common\Models\Publisher
+     * @return Publisher
      */
-    protected function create(array $data)
+    protected function create(array $data): Publisher
     {
         return Publisher::create([
             'name' => $data['name'],
