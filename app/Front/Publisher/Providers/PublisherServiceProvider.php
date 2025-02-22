@@ -2,7 +2,7 @@
 
 namespace App\Front\Publisher\Providers;
 
-use App\Front\Publisher\Listeners\PublisherRegisteredListener;
+use App\Front\Publisher\Listeners\RegisteredPublisherListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -23,8 +23,8 @@ class PublisherServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Event::listen(
-            Registered::class,
-            PublisherRegisteredListener::class,
+            events: [Registered::class],
+            listener: RegisteredPublisherListener::class
         );
     }
 }

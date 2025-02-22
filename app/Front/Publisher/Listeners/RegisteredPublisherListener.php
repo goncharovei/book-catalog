@@ -3,9 +3,10 @@
 namespace App\Front\Publisher\Listeners;
 
 use App\Common\Models\Publisher;
+use App\Front\Publisher\Service\AbilityPublisher;
 use Illuminate\Auth\Events\Registered;
 
-class PublisherRegisteredListener
+class RegisteredPublisherListener
 {
     /**
      * Create the event listener.
@@ -25,6 +26,6 @@ class PublisherRegisteredListener
             return;
         }
 
-        $event->user->createToken($event->user->name, ['server:update']);//todo
+        $event->user->createToken($event->user->name, AbilityPublisher::values());
     }
 }
