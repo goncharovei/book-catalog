@@ -38,5 +38,6 @@
 @endpush
 
 @push('scripts')
+    <script src="{{ asset('assets/libs/clipboard/clipboard.min.js') }}"></script>
     @vite('resources/pages/cabinet/script.js')
 @endpush
