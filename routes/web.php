@@ -11,7 +11,10 @@ Route::name('publisher.auth.')->group(function (){
         Auth::routes();
     });
 });
-Route::get('cabinet', [CabinetController::class, 'index'])->middleware(['auth'])
-    ->name('publisher.cabinet.index');
+
+Route::middleware('auth')->group(function (){
+    Route::get('cabinet', [CabinetController::class, 'index'])->name('publisher.cabinet.index');
+});
+
 
 

@@ -14,7 +14,7 @@ class PublisherServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+
     }
 
     /**

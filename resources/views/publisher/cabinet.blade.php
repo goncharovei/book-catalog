@@ -18,7 +18,7 @@
                     <div class="col">
                         <label for="token" class="form-label pr-2">{{ __('Token') }}</label>
                         <div class="input-group mb-3">
-                            <input id="token" type="text" class="form-control" readonly placeholder="Token API" aria-label="Token API" aria-describedby="button-token-refresh">
+                            <input id="token" type="text" class="form-control" readonly placeholder="Token API" aria-label="Token API" aria-describedby="button-token-refresh" value="{{ $token }}">
                             <button class="btn btn-outline-secondary" type="button" id="button-token-refresh">{{ __('Refresh') }}</button>
                             <button class="btn btn-outline-secondary" type="button">{{ __('Revoke') }}</button>
                             <button class="btn btn-outline-secondary" type="button">{{ __('Copy') }}</button>
