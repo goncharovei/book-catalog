@@ -28,9 +28,7 @@ final class FrontHandler
     {
         $this->middleware->redirectGuestsTo(function (Request $request)
         {
-            if (!$request->expectsJson() &&
-                in_array('auth:web', $request->route()->middleware()) &&
-                !Auth::guard('web')->check())
+            if (!Auth::guard('web')->check())
             {
                 return route('publisher.auth.login');
             }
@@ -38,15 +36,5 @@ final class FrontHandler
             return null;
         });
 
-        $this->middleware->redirectUsersTo(function (Request $request)
-        {
-            if (in_array('guest:web', $request->route()->middleware()) &&
-                Auth::guard('web')->check())
-            {
-                return route('book.list');
-            }
-
-            return null;
-        });
     }
 }
