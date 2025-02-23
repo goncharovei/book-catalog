@@ -1,5 +1,5 @@
 window.LoadingSpinner = function (){
-    var showTimer = 0;
+    let showTimer = 0;
 
     let show = function () {
         clearTimeout(showTimer);

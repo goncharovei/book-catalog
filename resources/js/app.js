@@ -4,8 +4,8 @@ $(document).ready(function()
 {
     function tooltipInit()
     {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             tooltipTriggerEl.addEventListener(
                 'mouseout',
                 (event) => {

@@ -13,7 +13,7 @@ window.infoShow = function (text)
 
 window.ajaxErrorMessage = function (jqXHR, exception)
 {
-    var msg = '';
+    let msg = '';
     if (jqXHR.status === 0) {
 
     } else if (jqXHR.status === 404) {
@@ -41,9 +41,9 @@ window.ajaxErrorValidationMessage = function (validator, errors)
         return;
     }
 
-    var errorNotShown = '';
+    let errorNotShown = '';
     $.each(errors, function(errorKey, errors) {
-        var errorText = '';
+        let errorText = '';
         $.each(errors, function(key, error) {
             errorText += error + ' ';
         });

@@ -18,7 +18,7 @@ $(document).ready(function()
 
         let tokenToggleDisplay = function () {
             $('#js-token-show-btn').click(function (){
-                var inputType = $('#token').attr('type') === 'password' ? 'text' : 'password';
+                let inputType = $('#token').attr('type') === 'password' ? 'text' : 'password';
                 $('#token').attr('type', inputType);
             })
         }
