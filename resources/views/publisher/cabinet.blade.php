@@ -35,6 +35,7 @@
         </div>
     </div>
 </div>
+    @include('includes.loading-spinner')
 @endsection
 
 @push('styles')

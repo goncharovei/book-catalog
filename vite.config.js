@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import {globby} from 'globby';
 
-const resourceFiles = await globby('resources/pages', {
+const resourceFiles = await globby(['resources/pages', 'resources/includes'], {
     expandDirectories: {
         extensions: ['js', 'css']
     }
