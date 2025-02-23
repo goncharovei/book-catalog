@@ -8,9 +8,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link href="{{ asset('assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/libs/toastr/toastr.min.css') }}" rel="stylesheet"/>
+    @vite('resources/sass/app.scss')
 
     @stack('styles')
 </head>
@@ -53,6 +53,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('book.list') }}">
+                                        {{ __('Home') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('publisher.cabinet.index') }}">
+                                        {{ __('Cabinet') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('publisher.auth.logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -79,6 +85,7 @@
     <script src="{{ asset('assets/libs/jquery/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/libs/toastr/toastr.min.js') }}"></script>
 
+    @vite(['resources/js/helper.js', 'resources/js/app.js'])
     @stack('scripts')
 </body>
 </html>

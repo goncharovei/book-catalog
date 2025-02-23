@@ -21,8 +21,12 @@
                             <input id="token" type="password" class="form-control" readonly placeholder="{{ __('API access token') }}" aria-label="{{ __('API access token') }}" aria-describedby="button-token-refresh" value="{{ $token }}">
                             <button class="btn btn-outline-secondary" type="button" id="button-token-refresh">{{ __('Refresh') }}</button>
                             <button class="btn btn-outline-secondary" type="button">{{ __('Revoke') }}</button>
-                            <button class="btn btn-outline-secondary" type="button">{{ __('Show') }}</button>
-                            <button class="btn btn-outline-secondary" type="button">{{ __('Copy') }}</button>
+                            <button id="js-token-show-btn" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Show or hide the Token" type="button">
+                                {{ __('Show') }}
+                            </button>
+                            <button class="btn btn-outline-secondary js-clipboard-btn" data-clipboard-target="#token" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy to clipboard">
+                                {{ __('Copy') }}
+                            </button>
                         </div>
                     </div>
 
