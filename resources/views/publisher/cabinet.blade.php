@@ -18,9 +18,9 @@
                     <div class="col">
                         <label for="token" class="form-label pr-2">{{ __('Token') }}</label>
                         <div class="input-group mb-3">
-                            <input id="token" type="password" class="form-control" readonly placeholder="{{ __('API access token') }}" aria-label="{{ __('API access token') }}" aria-describedby="button-token-refresh" value="{{ $token }}">
-                            <button class="btn btn-outline-secondary" type="button" id="button-token-refresh">{{ __('Refresh') }}</button>
-                            <button class="btn btn-outline-secondary" type="button">{{ __('Revoke') }}</button>
+                            <input id="token" type="password" class="form-control" readonly placeholder="{{ __('API access token') }}" aria-label="{{ __('API access token') }}" aria-describedby="js-token-refresh" value="{{ $token }}">
+                            <button class="btn btn-outline-secondary" type="button" id="js-token-refresh">{{ __('Refresh') }}</button>
+                            <button id="js-token-revoke" class="btn btn-outline-secondary" type="button">{{ __('Revoke') }}</button>
                             <button id="js-token-show-btn" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Show or hide the Token" type="button">
                                 {{ __('Show') }}
                             </button>
@@ -39,9 +39,11 @@
 
 @push('styles')
     @vite('resources/pages/cabinet/styles.css')
+    <link href="{{ asset('assets/libs/jquery-confirm/jquery-confirm.min.css') }}" rel="stylesheet"/>
 @endpush
 
 @push('scripts')
     <script src="{{ asset('assets/libs/clipboard/clipboard.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jquery-confirm/jquery-confirm.min.js') }}"></script>
     @vite('resources/pages/cabinet/script.js')
 @endpush

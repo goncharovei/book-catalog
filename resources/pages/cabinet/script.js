@@ -23,10 +23,48 @@ $(document).ready(function()
             })
         }
 
+        let onRefresh = function () {
+            $('#js-token-refresh').on('click', function(){
+                onConfirm(function (){
+                    $.alert('onRefresh');
+                })
+            });
+        }
+
+        let onRevoke = function () {
+            $('#js-token-revoke').on('click', function(){
+                onConfirm(function (){
+                    $.alert('onRevoke');
+                })
+            });
+        }
+
+        let onConfirm = function (callback) {
+            $.confirm({
+                title: 'Confirm',
+                icon: 'fa fa-question',
+                theme: 'bootstrap',
+                closeIcon: true,
+                animation: 'scale',
+                type: 'blue',
+                buttons: {
+                    yes: {
+                        text: 'Yes',
+                        action: callback
+                    },
+                    no: {
+                        text: 'No'
+                    }
+                }
+            });
+        }
+
         return {
             init: function (){
                 onClipboard();
                 tokenToggleDisplay();
+                onRevoke();
+                onRefresh();
             }
         }
     }();
