@@ -3,8 +3,13 @@
 namespace App\Front\Publisher\Http\Controllers\Auth;
 
 use App\Common\Models\Publisher;
+use App\Front\Publisher\Events\PublisherTokenRefreshEvent;
 use App\Front\Publisher\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Contracts\View\View;
@@ -46,6 +51,27 @@ class RegisterController extends Controller
         return view('publisher.auth.register');
     }
 
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = null;
+        DB::transaction(function () use ($request, &$user)
+        {
+            event(new Registered($user = $this->create($request->all())));
+            $this->guard()->login($user);
+            PublisherTokenRefreshEvent::dispatch($user);
+        });
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 201)
+            : redirect($this->redirectPath());
+    }
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -70,4 +96,8 @@ class RegisterController extends Controller
         ]);
     }
 
+    protected function registered(Request $request, $user)
+    {
+        //
+    }
 }

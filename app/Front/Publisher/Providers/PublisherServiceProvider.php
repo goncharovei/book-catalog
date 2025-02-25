@@ -24,7 +24,7 @@ class PublisherServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Event::listen(
-            events: [Registered::class, PublisherTokenRefreshEvent::class],
+            events: [PublisherTokenRefreshEvent::class],
             listener: PublisherTokenRefreshListener::class
         );
     }
