@@ -27,7 +27,7 @@ $(document).ready(function()
             $('#js-token-refresh').on('click', function(){
                 onConfirm(function (){
                     $.alert('onRefresh');
-                })
+                }, 'Refresh')
             });
         }
 
@@ -35,13 +35,15 @@ $(document).ready(function()
             $('#js-token-revoke').on('click', function(){
                 onConfirm(function (){
                     $.alert('onRevoke');
-                })
+                }, 'Revoke')
             });
         }
 
-        let onConfirm = function (callback) {
+        let onConfirm = function (callback, title = 'Confirm', message = 'Are you sure to continue?') {
+
             $.confirm({
-                title: 'Confirm',
+                title: title,
+                content: message,
                 icon: 'fa fa-question',
                 theme: 'bootstrap',
                 closeIcon: true,
