@@ -2,20 +2,22 @@
 
 namespace App\Front\Publisher\Http\Controllers;
 
-use App\Front\Publisher\Service\CabinetPublisherService;
+use App\Common\Service\PublisherToken\PublisherTokenService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 
 class CabinetController extends Controller
 {
-    public function __construct(private readonly CabinetPublisherService $service)
+    public function __construct(private readonly PublisherTokenService $tokenService)
     {
     }
 
     public function index(Request $request): Renderable
     {
+        $this->tokenService->setPublisher($request->user());
+
         return view('publisher.cabinet', [
-            'token' => $this->service->setPublisher($request->user())->currentAccessToken()
+            'token' => $this->tokenService->getPlainTextToken()
         ]);
     }
 }

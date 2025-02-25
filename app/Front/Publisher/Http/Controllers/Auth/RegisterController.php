@@ -6,9 +6,9 @@ use App\Common\Models\Publisher;
 use App\Front\Publisher\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -46,17 +46,11 @@ class RegisterController extends Controller
         return view('publisher.auth.register');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param array $data
-     * @return Validator
-     */
-    protected function validator(array $data): Validator
+    protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:publishers'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
     }
@@ -75,4 +69,5 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
 }
