@@ -18,8 +18,12 @@ $(document).ready(function()
 
         let onCopyClick = function () {
             $('.js-clipboard-btn').click(function (){
-                $('#token').attr('type', 'text');
+                tokenShow();
             });
+        }
+
+        let tokenShow = function () {
+            $('#token').attr('type', 'text');
         }
 
         let tokenToggleDisplay = function () {
@@ -32,16 +36,72 @@ $(document).ready(function()
         let onRefresh = function () {
             $('#js-token-refresh').on('click', function(){
                 onConfirm(function (){
-                    $.alert('onRefresh');
+                    refreshRequest();
                 }, 'Refresh')
+            });
+        }
+
+        let refreshRequest = function () {
+            LoadingSpinner.show();
+            $.ajax({
+                method: 'post',
+                url: $('#js-token-refresh').data('token-refresh-url'),
+                dataType: 'json',
+                success: function (response)
+                {
+                    LoadingSpinner.hide();
+                    if ('exception' in response)
+                    {
+                        alertShow(response.exception);
+                        return;
+                    }
+
+                    $('#token').val(response.token);
+                    tokenShow();
+
+                    successShow('Success');
+                },
+                error: function (jqXHR, exception)
+                {
+                    LoadingSpinner.hide();
+                    ajaxErrorMessage(jqXHR, exception);
+                }
             });
         }
 
         let onRevoke = function () {
             $('#js-token-revoke').on('click', function(){
-                onConfirm(function (){
-                    $.alert('onRevoke');
+                onConfirm(function ()
+                {
+                    revokeRequest();
                 }, 'Revoke')
+            });
+        }
+
+        let revokeRequest = function () {
+            LoadingSpinner.show();
+            $.ajax({
+                method: 'delete',
+                url: $('#js-token-revoke').data('token-revoke-url'),
+                dataType: 'json',
+                success: function (response)
+                {
+                    LoadingSpinner.hide();
+                    if ('exception' in response)
+                    {
+                        alertShow(response.exception);
+                        return;
+                    }
+
+                    $('#token').val('');
+
+                    successShow('Success');
+                },
+                error: function (jqXHR, exception)
+                {
+                    LoadingSpinner.hide();
+                    ajaxErrorMessage(jqXHR, exception);
+                }
             });
         }
 

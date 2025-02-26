@@ -21,12 +21,7 @@ class PublisherTokenRefreshListener implements ShouldQueue
      */
     public function handle(PublisherTokenRefreshEvent $event): void
     {
-        $this->tokenService->revoke();
-        $this->tokenService->create();
+        $this->tokenService->refresh();
     }
 
-    public function shouldQueue(PublisherTokenRefreshEvent $event): bool
-    {
-        return $event->isShouldQueue;
-    }
 }

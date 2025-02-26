@@ -5,6 +5,7 @@ namespace App\Front\Publisher\Service\PublisherToken;
 use App\Common\Models\Publisher;
 use App\Front\Publisher\Service\AbilityPublisher;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\NewAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -26,12 +27,14 @@ final readonly class PublisherTokenService
         return $this->token()?->plainTextToken;
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function create(): NewAccessToken
     {
-        $newAccessToken = null;
+        try {
+            DB::beginTransaction();
 
-        DB::transaction(function () use (&$newAccessToken)
-        {
             $newAccessToken = $this->publisher->createToken(
                 $this->publisher->name,
                 AbilityPublisher::values()
@@ -43,7 +46,14 @@ final readonly class PublisherTokenService
                 accessToken: $newAccessToken->accessToken->token,
                 plainTextToken: $newAccessToken->plainTextToken
             ));
-        });
+
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            Log::error($e->getMessage(), [__CLASS__ . ' ' . __METHOD__]);
+            throw $e;
+        }
 
         return $newAccessToken;
     }
@@ -65,12 +75,42 @@ final readonly class PublisherTokenService
         return new NewAccessToken($personalAccessToken, $tokenInfo->plainTextToken);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function revoke(): void
     {
-        DB::transaction(function ()
-        {
+        try {
+            DB::beginTransaction();
+
             $this->publisher->tokens()->delete();
             $this->cache->remove();
-        });
+
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            Log::error($e->getMessage(), [__CLASS__ . ' ' . __METHOD__]);
+            throw $e;
+        }
     }
+
+    /**
+     * @throws \Throwable
+     */
+    public function refresh(): void
+    {
+        try {
+            DB::beginTransaction();
+
+            $this->revoke();
+            $this->create();
+
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
 }

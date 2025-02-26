@@ -19,8 +19,8 @@
                         <label for="token" class="form-label pr-2">{{ __('Token') }}</label>
                         <div class="input-group mb-3">
                             <input id="token" type="password" class="form-control" readonly placeholder="{{ __('API access token') }}" aria-label="{{ __('API access token') }}" value="{{ $token }}">
-                            <button class="btn btn-outline-secondary" type="button" id="js-token-refresh">{{ __('Refresh') }}</button>
-                            <button id="js-token-revoke" class="btn btn-outline-secondary" type="button">{{ __('Revoke') }}</button>
+                            <button class="btn btn-outline-secondary" data-token-refresh-url="{{ route('publisher.cabinet.token-refresh') }}" type="button" id="js-token-refresh">{{ __('Refresh') }}</button>
+                            <button id="js-token-revoke" data-token-revoke-url="{{ route('publisher.cabinet.token-revoke') }}" class="btn btn-outline-secondary" type="button">{{ __('Revoke') }}</button>
                             <button id="js-token-show-btn" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Show or hide the Token" type="button">
                                 {{ __('Show') }}
                             </button>
