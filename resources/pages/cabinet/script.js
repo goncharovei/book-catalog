@@ -16,6 +16,12 @@ $(document).ready(function()
             });
         }
 
+        let onCopyClick = function () {
+            $('.js-clipboard-btn').click(function (){
+                $('#token').attr('type', 'text');
+            });
+        }
+
         let tokenToggleDisplay = function () {
             $('#js-token-show-btn').click(function (){
                 let inputType = $('#token').attr('type') === 'password' ? 'text' : 'password';
@@ -64,6 +70,7 @@ $(document).ready(function()
         return {
             init: function (){
                 onClipboard();
+                onCopyClick();
                 tokenToggleDisplay();
                 onRevoke();
                 onRefresh();
