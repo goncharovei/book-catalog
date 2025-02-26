@@ -60,7 +60,7 @@ class RegisterController extends Controller
         {
             event(new Registered($user = $this->create($request->all())));
             $this->guard()->login($user);
-            PublisherTokenRefreshEvent::dispatch($user);
+            PublisherTokenRefreshEvent::dispatch();
         });
 
         if ($response = $this->registered($request, $user)) {

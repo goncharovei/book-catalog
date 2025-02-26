@@ -80,11 +80,12 @@ final class SiteSide
     }
 
     /**
-     * prevent from being unserialized (which would create a second instance of it)
+     * prevent from being serialized (which would create a second instance of it)
+     * @throws \Exception
      */
     public function __wakeup()
     {
-        throw new \Exception('Cannot unserialize singleton');
+        throw new \Exception('Cannot serialize singleton');
     }
 }
 

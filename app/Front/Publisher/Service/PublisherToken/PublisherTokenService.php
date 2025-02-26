@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Common\Service\PublisherToken;
+namespace App\Front\Publisher\Service\PublisherToken;
 
 use App\Common\Models\Publisher;
 use App\Front\Publisher\Service\AbilityPublisher;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\NewAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
-use Illuminate\Support\Facades\DB;
 
 final readonly class PublisherTokenService
 {
     private Publisher $publisher;
     private PublisherTokenCache $cache;
 
-    public function setPublisher(Publisher $publisher): PublisherTokenService
+    public function setDependencies(Publisher $publisher, PublisherTokenCache $cache): PublisherTokenService
     {
         $this->publisher = $publisher;
-        $this->cache = new PublisherTokenCache($this->publisher->id);
+        $this->cache = $cache;
 
         return $this;
     }
@@ -26,7 +26,7 @@ final readonly class PublisherTokenService
         return $this->token()?->plainTextToken;
     }
 
-    public function refresh(): NewAccessToken
+    public function create(): NewAccessToken
     {
         $newAccessToken = null;
 

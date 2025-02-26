@@ -3,10 +3,12 @@
 namespace App\Front\Publisher\Providers;
 
 use App\Front\Publisher\Events\PublisherTokenRefreshEvent;
+use App\Front\Publisher\Listeners\PublisherAuthenticatedListener;
 use App\Front\Publisher\Listeners\PublisherTokenRefreshListener;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\ServiceProvider;
+use App\Front\Publisher\Service\PublisherToken\PublisherTokenService;
+use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
 
 class PublisherServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,7 @@ class PublisherServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
+        $this->app->instance(PublisherTokenService::class, new PublisherTokenService());
     }
 
     /**
@@ -26,6 +28,11 @@ class PublisherServiceProvider extends ServiceProvider
         Event::listen(
             events: [PublisherTokenRefreshEvent::class],
             listener: PublisherTokenRefreshListener::class
+        );
+
+        Event::listen(
+            events: [Authenticated::class],
+            listener: PublisherAuthenticatedListener::class
         );
     }
 }

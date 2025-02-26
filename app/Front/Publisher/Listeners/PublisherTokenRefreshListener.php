@@ -2,8 +2,8 @@
 
 namespace App\Front\Publisher\Listeners;
 
-use App\Common\Service\PublisherToken\PublisherTokenService;
 use App\Front\Publisher\Events\PublisherTokenRefreshEvent;
+use App\Front\Publisher\Service\PublisherToken\PublisherTokenService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PublisherTokenRefreshListener implements ShouldQueue
@@ -21,7 +21,8 @@ class PublisherTokenRefreshListener implements ShouldQueue
      */
     public function handle(PublisherTokenRefreshEvent $event): void
     {
-        $this->tokenService->setPublisher($event->publisher)->refresh();
+        $this->tokenService->revoke();
+        $this->tokenService->create();
     }
 
     public function shouldQueue(PublisherTokenRefreshEvent $event): bool
