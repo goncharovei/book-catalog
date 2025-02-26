@@ -4,9 +4,11 @@ namespace App\Front\Publisher\Providers;
 
 use App\Front\Publisher\Events\PublisherTokenRefreshEvent;
 use App\Front\Publisher\Listeners\PublisherAuthenticatedListener;
+use App\Front\Publisher\Listeners\PublisherRegisteredListener;
 use App\Front\Publisher\Listeners\PublisherTokenRefreshListener;
 use App\Front\Publisher\Service\PublisherToken\PublisherTokenService;
 use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,5 +36,11 @@ class PublisherServiceProvider extends ServiceProvider
             events: [Authenticated::class],
             listener: PublisherAuthenticatedListener::class
         );
+
+        Event::listen(
+            events: [Registered::class],
+            listener: PublisherRegisteredListener::class
+        );
+
     }
 }
