@@ -1,8 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Common\Models;
 
+use App\Common\Models\Publisher;
+use App\Front\Publisher\Service\PublisherToken\PublisherTokenCache;
+use App\Front\Publisher\Service\PublisherToken\PublisherTokenService;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -11,6 +16,13 @@ use Illuminate\Support\Str;
  */
 class PublisherFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Publisher::class;
+
     /**
      * The current password being used by the factory.
      */
@@ -40,5 +52,23 @@ class PublisherFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Publisher $publisher) {
+            // ...
+        })->afterCreating(function (Publisher $publisher)
+        {
+            $tokenService = resolve(PublisherTokenService::class);
+            $tokenService->setDependencies(
+                $publisher,
+                resolve(PublisherTokenCache::class, [
+                    'cache' => Cache::store(),
+                    'crypt' => Crypt::getFacadeRoot(),
+                    'publisherId' => $publisher->id
+                ])
+            )->create();
+        });
     }
 }

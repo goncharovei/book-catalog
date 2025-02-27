@@ -6,16 +6,16 @@ This is a project that showcases my Frontend and Backend skills. For example, im
 
 Let's assume that there is a book catalog website (hereinafter referred to as the Catalog).
 
-There are several publishing websites selling books that would like to see their books in the Catalog. At the same time, different publishing houses can sell the same books. Books can have several authors, and authors can have several books.
+There are several publishing websites selling books that would like to see their books in the Catalog. At the same time, different publishing houses can sell the same books. Books can have several authors.
 
 The Catalog has:
-1. The public part - a list and a detailed page of books.
+1. The public part - a book list page.
 2. A page for the publisher's personal account.
 
 What needs to be done?
-1. Write a RESTful API (hereinafter referred to as the API) for publishing websites that will allow adding, editing, and deleting books from the Catalog list.
+1. Write a RESTful API (hereinafter referred to as the API) for publishing websites that will allow getting, adding, editing, and deleting books from the Catalog list.
 2. Create interactive API documentation.
-3. Implement pages for the list and detailed information about the book, as well as a page for the publisher's personal account.
+3. Implement page for the list, as well as a page for the publisher's personal account.
 
 ## Design principles
 

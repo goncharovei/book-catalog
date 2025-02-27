@@ -32,7 +32,11 @@ class PublisherAuthenticatedListener implements ShouldQueue
 
         $this->tokenService->setDependencies(
             $event->user,
-            new PublisherTokenCache(Cache::store(), Crypt::getFacadeRoot(), $event->user->id)
+            resolve(PublisherTokenCache::class, [
+                'cache' => Cache::store(),
+                'crypt' => Crypt::getFacadeRoot(),
+                'publisherId' => $event->user->id
+            ])
         );
     }
 
