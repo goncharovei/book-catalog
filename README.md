@@ -29,9 +29,10 @@ Readable code is a set of rules:
 5. Controllers and models must be thin.
 6. The interaction of models is transferred to the Service (Service Oriented Architecture).
 7. Use class's arguments with the Dependency injection. 
-8. The structure of project files should resemble the table of contents of a book.
-9. There should be no mixing of different languages. 
-10. When planning the implementation of functionality, also consider security, performance, and support.
+8. Avoid using the New statement whenever possible.
+9. The structure of project files should resemble the table of contents of a book.
+10. There should be no mixing of different languages. 
+11. When planning the implementation of functionality, also consider security, performance, and support.
 
 And a set of principles:
 - "Keep it simple, stupid".<br>

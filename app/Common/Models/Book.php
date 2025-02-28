@@ -6,6 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Class Book
+ * @package App\Common\Models
+ *
+ * @property int $id
+ * @property int $publisher_id
+ * @property string $isbn
+ * @property string $name
+ * @property array $authors
+ * @property int $year_publication
+ * @property string $detail_link
+ * @property Publisher $publisher
+ *
+ */
 class Book extends Model
 {
     use HasFactory;
