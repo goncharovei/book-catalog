@@ -7,7 +7,8 @@ use App\Common\Providers\ProviderFactory;
 final class ApiHandler extends ProviderFactory
 {
     protected static array $providers = [
-
+        ApiServiceProvider::class,
+        BookServiceProvider::class
     ];
 
 }

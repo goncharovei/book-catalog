@@ -15,6 +15,11 @@ class ApiMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (!$request->wantsJson())
+        {
+            throw new \DomainException('Only JSON requests are supported.');
+        }
+
         return $next($request);
     }
 }
