@@ -14,7 +14,7 @@ final readonly class Handler
 
     }
 
-    public function __invoke(Middleware $middleware, ): void
+    public function __invoke(Middleware $middleware): void
     {
         (new AppHandler($middleware))->handler();
 
