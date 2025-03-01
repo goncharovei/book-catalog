@@ -3,16 +3,19 @@
 namespace App\Api\V1\Book\Http\Controllers;
 
 use App\Api\V1\Book\Http\Requests\BookRequest;
+use App\Api\V1\Book\Http\Requests\BookUpdatePartialRequest;
 use App\Api\V1\Book\Http\Resources\BookResource;
 use App\Common\Models\Book;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BookController extends Controller
 {
-    public function books()
+    public function books(Request $request): AnonymousResourceCollection
     {
-
+        return BookResource::collection($request->user()->books()->paginate());
     }
 
     public function book(Book $book): BookResource
@@ -22,15 +25,16 @@ class BookController extends Controller
 
     public function store(BookRequest $request)
     {
-        $book = Book::create($request->validated());
+        $book = $request->user()->books()->create($request->validated());
 
         return BookResource::make($book)->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function updatePartial(BookRequest $request, Book $book)
+    public function updatePartial(BookUpdatePartialRequest $request, Book $book)
     {
-        //todo
+        $book->update($request->validated());
+
         return BookResource::make($book)->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
