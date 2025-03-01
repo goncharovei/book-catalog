@@ -2,9 +2,9 @@
 
 namespace App\Common\Providers;
 
-final class AppHandler
+final class AppHandler extends ProviderFactory
 {
-    public static array $providers = [
+    protected static array $providers = [
         AppServiceProvider::class,
     ];
 

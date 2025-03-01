@@ -10,17 +10,16 @@ final readonly class Handler
 {
     public function __construct(private SiteSide $siteSide)
     {
-
     }
 
     public function __invoke(): array
     {
         $providers = match (true) {
-            $this->siteSide->isFront() => FrontHandler::$providers,
-            $this->siteSide->isApi() => ApiHandler::$providers
+            $this->siteSide->isFront() => FrontHandler::getProviders(),
+            $this->siteSide->isApi() => ApiHandler::getProviders()
         };
 
-        return array_merge(AppHandler::$providers, $providers);
+        return array_merge(AppHandler::getProviders(), $providers);
     }
 
 }

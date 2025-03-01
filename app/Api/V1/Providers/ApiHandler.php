@@ -2,9 +2,11 @@
 
 namespace App\Api\V1\Providers;
 
-final class ApiHandler
+use App\Common\Providers\ProviderFactory;
+
+final class ApiHandler extends ProviderFactory
 {
-    public static array $providers = [
+    protected static array $providers = [
 
     ];
 

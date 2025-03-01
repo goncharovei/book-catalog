@@ -2,11 +2,12 @@
 
 namespace App\Front\Providers;
 
+use App\Common\Providers\ProviderFactory;
 use App\Front\Publisher\Providers\PublisherServiceProvider;
 
-final class FrontHandler
+final class FrontHandler extends ProviderFactory
 {
-    public static array $providers = [
+    protected static array $providers = [
         PublisherServiceProvider::class,
     ];
 
