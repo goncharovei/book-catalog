@@ -35,14 +35,17 @@ class BookRequest extends FormRequest
             'name' => 'required|string|min:2|max:255',
             'author_names' => 'required|array|min:1|max:5',
             'author_names.*' => 'string|min:5|max:50',
-            'year_publication' => 'required|digits_between:1900,' . now()->year,
+            'year_publication' => 'required|date_format:Y|after_or_equal:1900|before_or_equal:' . now()->year,
             'detail_link' => 'required|url|max:255'
         ];
     }
 
-    protected function passedValidation(): void
+    public function validated($key = null, $default = null): array
     {
-        $fields = $this->validated();
-        $this->replace(['authors' => $fields['author_names']]);
+        return array_rename_keys(
+            data: parent::validated(),
+            oldKeys: ['author_names'],
+            newKeys: ['authors']
+        );
     }
 }
