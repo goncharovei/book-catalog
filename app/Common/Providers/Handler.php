@@ -16,7 +16,8 @@ final readonly class Handler
     {
         $providers = match (true) {
             $this->siteSide->isFront() => FrontHandler::getProviders(),
-            $this->siteSide->isApi() => ApiHandler::getProviders()
+            $this->siteSide->isApi() => ApiHandler::getProviders(),
+            default => []
         };
 
         return array_merge(AppHandler::getProviders(), $providers);
