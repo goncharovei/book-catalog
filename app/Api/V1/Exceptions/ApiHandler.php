@@ -56,7 +56,7 @@ final readonly class ApiHandler
 
     private function logging(Response $response, \Throwable $e, Request $request): void
     {
-        Log::error(print_r([
+        Log::channel('api')->error(print_r([
             'message' => $e->getMessage(),
             'code' => [
                 'error' => $e->getCode(),
