@@ -21,8 +21,6 @@ final class ApiHandler
     public function handler(): void
     {
         $this->middleware->appendToGroup('api', ApiMiddleware::class);
-
-        $this->middleware->statefulApi();
     }
 
 }
