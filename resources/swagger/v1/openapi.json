@@ -13,6 +13,10 @@
     {
       "name": "book",
       "description": "Book of a Publisher"
+    },
+    {
+      "name": "books",
+      "description": "Books of a Publisher"
     }
   ],
   "paths": {
@@ -58,6 +62,81 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "book"
+        ],
+        "summary": "Remove book by ID",
+        "description": "Removes a single book",
+        "operationId": "deleteBookById",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "ID of book to remove",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "A empty response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": null
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "fail operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books": {
+      "get": {
+        "tags": [
+          "books"
+        ],
+        "summary": "Find all books",
+        "description": "Returns all books",
+        "operationId": "getBooks",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Books"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "fail operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -80,15 +159,15 @@
             "example": "Book 1"
           },
           "author_names": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AuthorName"
-            }
+            "type": "string",
+            "example": [
+              "Author 1",
+              "Author 2"
+            ]
           },
           "year_publication": {
             "type": "string",
-            "format": "Y",
-            "example": "2007"
+            "example": 2007
           },
           "detail_link": {
             "type": "string",
@@ -96,37 +175,116 @@
           }
         }
       },
-      "AuthorName": {
-        "type": "string",
-        "example": "Author 1"
+      "Books": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Book"
+            }
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "first": {
+                "type": "string",
+                "example": "https://your-site.local/api/v1/books?page=1"
+              },
+              "last": {
+                "type": "string",
+                "example": "https://your-site.local/api/v1/books?page=1"
+              },
+              "prev": {
+                "type": "string",
+                "example": null
+              },
+              "next": {
+                "type": "string",
+                "example": null
+              }
+            }
+          },
+          "meta": {
+            "type": "object",
+            "properties": {
+              "current_page": {
+                "type": "integer",
+                "example": 1
+              },
+              "from": {
+                "type": "integer",
+                "example": 1
+              },
+              "last_page": {
+                "type": "integer",
+                "example": 1
+              },
+              "links": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": "https://your-site.local/api/v1/books?page=1"
+                    },
+                    "label": {
+                      "type": "string",
+                      "example": 1
+                    },
+                    "active": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              },
+              "path": {
+                "type": "string",
+                "example": "https://your-site.local/api/v1/books"
+              },
+              "per_page": {
+                "type": "integer",
+                "example": 15
+              },
+              "to": {
+                "type": "integer",
+                "example": 1
+              },
+              "total": {
+                "type": "integer",
+                "example": 1
+              }
+            }
+          }
+        }
       },
       "Errors": {
         "type": "object",
         "properties": {
           "response": {
-            "$ref": "#/components/schemas/ErrorResponse"
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "message": "Unauthorized",
+              "code": 401
+            }
           },
-          "validation": {
-            "$ref": "#/components/schemas/ErrorValidation"
+          "validation[]": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "apples": "Error 1",
+              "oranges": "Error 2"
+            }
           }
         }
-      },
-      "ErrorResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "example": "Unauthorized"
-          },
-          "code": {
-            "type": "integer",
-            "example": 401
-          }
-        }
-      },
-      "ErrorValidation": {
-        "type": "object",
-        "properties": {}
       }
     },
     "requestBodies": {
