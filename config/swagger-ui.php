@@ -19,7 +19,7 @@ return [
              * The versions of the swagger file. The key is the version name and the value is the path to the file.
              */
             'versions' => [
-                'v1' => resource_path('swagger/openapi.json'),
+                'v1' => resource_path('swagger/v1/openapi.json'),
             ],
 
             /*
@@ -48,7 +48,7 @@ return [
             /*
              * The server URL configuration for the swagger file.
              */
-            'server_url' => env('APP_URL'),
+            'server_url' => env('SWAGGER_UI_SERVER_URL'),
 
             /*
              * The oauth configuration for the swagger file.
