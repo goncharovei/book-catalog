@@ -9,6 +9,7 @@ final class FrontHandler extends ProviderFactory
 {
     protected static array $providers = [
         PublisherServiceProvider::class,
+        SwaggerUiServiceProvider::class
     ];
 
 }

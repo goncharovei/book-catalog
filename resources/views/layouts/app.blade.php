@@ -34,6 +34,9 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="{{ route('swagger.index') }}">{{ __('API') }}</a>
+                        </li>
                         @guest
                             @if (Route::has('publisher.auth.login'))
                                 <li class="nav-item">
