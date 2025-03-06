@@ -2,6 +2,7 @@
 
 namespace App\Common\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +19,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $year_publication
  * @property string $detail_link
  * @property Publisher $publisher
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  *
  */
 class Book extends Model

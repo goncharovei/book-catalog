@@ -3,12 +3,26 @@
 namespace App\Common\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Class Publisher
+ * @package App\Common\Models
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Collection $books
+ *
+ */
 class Publisher extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\Common\Models\PublisherFactory> */
