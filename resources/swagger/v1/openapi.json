@@ -105,6 +105,112 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "book"
+        ],
+        "summary": "Update book by ID",
+        "description": "Updates a single book",
+        "operationId": "updateBookById",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "ID of book to remove",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update a new book in the catalog",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "fail operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "book"
+        ],
+        "summary": "Partially update book by ID",
+        "description": "Partially updates the book",
+        "operationId": "updatePartialBookById",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "description": "ID of book to remove",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update a book in the catalog",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "fail operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/books": {
@@ -137,6 +243,47 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "book"
+        ],
+        "summary": "Create a book",
+        "description": "Returns a new book",
+        "operationId": "storeBook",
+        "requestBody": {
+          "description": "Create a new book in the catalog",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Book"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "fail operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -148,7 +295,8 @@
           "id": {
             "type": "integer",
             "format": "int64",
-            "example": 10
+            "example": 10,
+            "readOnly": true
           },
           "isbn": {
             "type": "string",
@@ -280,8 +428,8 @@
               "type": "string"
             },
             "example": {
-              "apples": "Error 1",
-              "oranges": "Error 2"
+              "name": "Error 1",
+              "isbn": "Error 2"
             }
           }
         }
@@ -289,7 +437,7 @@
     },
     "requestBodies": {
       "Book": {
-        "description": "Book object that needs to be added to the store",
+        "description": "Book object that needs to be added to the catalog",
         "content": {
           "application/json": {
             "schema": {
