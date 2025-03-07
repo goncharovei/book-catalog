@@ -11,7 +11,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
-        "wotz/laravel-swagger-ui": "^1.2"
+        "wotz/laravel-swagger-ui": "^1.2",
+        "yajra/laravel-datatables": "^11.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
