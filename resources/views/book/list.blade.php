@@ -19,8 +19,8 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Authors</th>
-                                <th>ISBN</th>
-                                <th>Year</th>
+                                <th class="dt-center">ISBN</th>
+                                <th class="dt-center">Year</th>
                                 <th>Publisher</th>
                             </tr>
                             </thead>

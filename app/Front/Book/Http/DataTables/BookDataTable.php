@@ -24,7 +24,14 @@ class BookDataTable extends DataTable
             ->addColumn('publisher_name', function (Book $book){
                 return $book->publisher->name;
             })
-            ->only($this->displayColumnNames());
+            ->editColumn('name', function (Book $book){
+                return view('book.link', [
+                    'url' => $book->detail_link,
+                    'name' => $book->name
+                ])->render();
+            })
+            ->only($this->displayColumnNames())
+            ->rawColumns(['name']);
     }
 
     /**
@@ -38,7 +45,7 @@ class BookDataTable extends DataTable
     private function displayColumnNames(): array
     {
         return [
-          'isbn', 'name', 'author_names', 'year_publication', 'detail_link', 'publisher_name'
+          'isbn', 'name', 'author_names', 'year_publication', 'publisher_name'
         ];
     }
 }

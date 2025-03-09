@@ -18,14 +18,15 @@ $(document).ready(function()
                     }
                 },
                 pageLength: 10,
-                lengthMenu: [10, 25, 50, 100, { label: 'All', value: -1 }],
+                lengthMenu: [10, 100, 300, 500],
                 columns: [
                     {data: 'name'},
-                    {data: 'author_names'},
+                    {data: 'author_names', orderable: false},
                     {data: 'isbn'},
                     {data: 'year_publication'},
-                    {data: 'publisher_name'}
-                ]
+                    {data: 'publisher_name', orderable: false}
+                ],
+                order: [[0, 'asc']]
             });
         }
 
