@@ -4,7 +4,7 @@ use App\Api\V1\Book\Http\Controllers\BookController;
 use App\Front\Publisher\Service\AbilityPublisher;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->middleware('auth:sanctum')->group(function (){
+Route::prefix('v1')->middleware(['auth:sanctum', 'json'])->group(function (){
     Route::get('books', [BookController::class, 'books'])
         ->middleware('ability:' . AbilityPublisher::BOOK_READ->value);
     Route::get('books/{book}', [BookController::class, 'book'])

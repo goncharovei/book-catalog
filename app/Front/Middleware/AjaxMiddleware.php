@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Api\V1\Middleware;
+namespace App\Front\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiMiddleware
+class AjaxMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,6 +15,11 @@ class ApiMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (!$request->isXmlHttpRequest())
+        {
+            throw new \DomainException('Only AJAX requests are supported.');
+        }
+
         return $next($request);
     }
 }

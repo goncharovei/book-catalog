@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Auth;
 final class FrontHandler
 {
     private array $aliases = [
-
+        'ajax' => AjaxMiddleware::class
     ];
 
     public function __construct(private readonly Middleware $middleware)
     {
-        $this->middleware->alias($this->aliases);
+        $this->middleware->alias(array_merge(
+            $this->middleware->getMiddlewareAliases(),
+            $this->aliases
+        ));
     }
 
     public function handler(): void

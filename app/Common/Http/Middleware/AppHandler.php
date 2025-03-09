@@ -7,7 +7,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 final class AppHandler
 {
     private array $aliases = [
-
+        'json' => JsonMiddleware::class
     ];
 
     public function __construct(private readonly Middleware $middleware)

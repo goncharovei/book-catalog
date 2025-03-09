@@ -5,7 +5,9 @@ use App\Front\Publisher\Http\Controllers\CabinetController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BookController::class, 'index'])->name('book.list');
-Route::get('book/data-table-items', [BookController::class, 'dataTableItems'])->name('book.data-table-items');
+Route::middleware(['ajax', 'json'])->group(function (){
+    Route::get('book/data-table-items', [BookController::class, 'dataTableItems'])->name('book.data-table-items');
+});
 
 Route::name('publisher.auth.')->group(function () {
     Route::namespace('App\Front\Publisher\Http\Controllers')->group(function () {

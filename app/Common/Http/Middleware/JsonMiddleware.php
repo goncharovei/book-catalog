@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Api\V1\Middleware;
+namespace App\Common\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiMiddleware
+class JsonMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,6 +15,11 @@ class ApiMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (!$request->wantsJson())
+        {
+            throw new \DomainException('Only JSON requests are supported.');
+        }
+
         return $next($request);
     }
 }
