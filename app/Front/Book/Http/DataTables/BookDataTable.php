@@ -3,12 +3,16 @@
 namespace App\Front\Book\Http\DataTables;
 
 use App\Common\Models\Book;
+use App\Front\Book\Service\BookDataTable\BookDataTableFilterDto;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Services\DataTable;
 
 class BookDataTable extends DataTable
 {
+    private BookDataTableFilterDto $filter;
+
     /**
      * Build the DataTable class.
      *
@@ -30,8 +34,33 @@ class BookDataTable extends DataTable
                     'name' => $book->name
                 ])->render();
             })
+            ->filter(callback: [$this, 'filter'], globalSearch: true)
             ->only($this->displayColumnNames())
             ->rawColumns(['name']);
+    }
+
+    public function setFilterData(BookDataTableFilterDto $filter): static
+    {
+        $this->filter = $filter;
+
+        return $this;
+    }
+
+    public function filter(QueryBuilder $query): void
+    {
+        $query->when(!empty($this->filter->searchText), function (Builder $query)
+        {
+            $likeVal = '"%' . strtolower($this->filter->searchText) . '%"';
+            $query->orWhere(function (Builder $query) use ($likeVal)
+            {
+                $query->whereHas('publisher', function (Builder $query) use ($likeVal) {
+                    $query->whereRaw('LOWER(name) LIKE ' . $likeVal);
+                });
+
+            });
+
+        });
+
     }
 
     /**

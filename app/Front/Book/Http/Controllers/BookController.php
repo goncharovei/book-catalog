@@ -3,6 +3,7 @@
 namespace App\Front\Book\Http\Controllers;
 
 use App\Front\Book\Http\DataTables\BookDataTable;
+use App\Front\Book\Http\Requests\BookSearchRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 
@@ -13,8 +14,8 @@ class BookController extends Controller
         return view('book.list');
     }
 
-    public function dataTableItems(BookDataTable $dataTable): JsonResponse
+    public function dataTableItems(BookSearchRequest $request, BookDataTable $dataTable): JsonResponse
     {
-        return $dataTable->ajax();
+        return $dataTable->setFilterData($request->getDto())->ajax();
     }
 }
