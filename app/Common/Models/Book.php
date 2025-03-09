@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
  * Class Book
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $isbn
  * @property string $name
  * @property array $authors
+ * @property string $author_names
  * @property int $year_publication
  * @property string $detail_link
  * @property Publisher $publisher
@@ -40,6 +42,13 @@ class Book extends Model
         return [
             'authors' => 'array',
         ];
+    }
+
+    protected function authorNames(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => implode(', ', $this->authors)
+        )->shouldCache();
     }
 
     public function publisher(): BelongsTo
