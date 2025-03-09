@@ -8,8 +8,13 @@ $(document).ready(function()
         layout: {
             topStart: {
                 buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            },
+            bottomStart: {
+                buttons: ['pageLength']
             }
         },
+        pageLength: 10,
+        lengthMenu: [10, 25, 50, 100, { label: 'All', value: -1 }],
         columns: [
             {data: 'name'},
             {data: 'author_names'},

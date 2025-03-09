@@ -20,7 +20,7 @@
                                 <th>Name</th>
                                 <th>Authors</th>
                                 <th>ISBN</th>
-                                <th>Year Publication</th>
+                                <th>Year</th>
                                 <th>Publisher</th>
                             </tr>
                             </thead>
