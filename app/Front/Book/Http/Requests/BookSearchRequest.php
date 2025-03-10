@@ -23,7 +23,7 @@ class BookSearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'search.value' => 'string|max:120|nullable'
+            'search.value' => 'string|min:2|max:128|nullable'
         ];
     }
 

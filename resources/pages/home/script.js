@@ -5,7 +5,15 @@ $(document).ready(function()
 
         let datatableCreate = function () {
             dataTable = new DataTable('#catalog', {
-                ajax: window.bookDataTableUrl,
+                ajax: {
+                    url: window.bookDataTableUrl,
+                    error: function (XMLHttpRequest, textStatus, errorThrown)
+                    {
+                        let error = 'responseJSON' in XMLHttpRequest ?
+                            XMLHttpRequest.responseJSON.exception : 'Something went wrong';
+                        alertShow(error);
+                    }
+                },
                 processing: true,
                 serverSide: true,
                 responsive: true,
