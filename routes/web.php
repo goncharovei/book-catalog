@@ -1,12 +1,12 @@
 <?php
 
-use App\Front\Book\Http\Controllers\BookController;
+use App\Front\Book\Http\Controllers\HomeController;
 use App\Front\Publisher\Http\Controllers\CabinetController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [BookController::class, 'index'])->name('book.list');
+Route::get('/', [HomeController::class, 'index'])->name('book.list');
 Route::middleware(['ajax', 'json'])->group(function (){
-    Route::get('book/data-table-items', [BookController::class, 'dataTableItems'])->name('book.data-table-items');
+    Route::get('book/data-table-items', [HomeController::class, 'dataTableItems'])->name('book.data-table-items');
 });
 
 Route::name('publisher.auth.')->group(function () {

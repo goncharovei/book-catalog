@@ -7,7 +7,7 @@ use App\Front\Book\Http\Requests\BookSearchRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 
-class BookController extends Controller
+class HomeController extends Controller
 {
     public function index(): View
     {
