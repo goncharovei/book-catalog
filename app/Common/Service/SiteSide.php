@@ -7,16 +7,14 @@ use Illuminate\Http\Request;
 final class SiteSide
 {
     private static ?SiteSide $instance = null;
-    private bool $isFront = false;
-    private bool $isApi = false;
 
     /**
      * gets the instance via lazy initialization (created on first usage)
      */
-    public static function getInstance(): SiteSide
+    public static function getInstance(bool $isFront = false, bool $isApi = false): SiteSide
     {
         if (self::$instance === null) {
-            self::$instance = new self();
+            self::$instance = new self($isFront, $isApi);
         }
 
         return self::$instance;
@@ -36,7 +34,10 @@ final class SiteSide
      * is not allowed to call from outside to prevent from creating multiple instances,
      * to use the singleton, you have to obtain the instance from SiteSide::getInstance() instead
      */
-    private function __construct()
+    private function __construct(
+        private bool $isFront = false,
+        private bool $isApi = false
+    )
     {
         $this->setFlags();
     }
