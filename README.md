@@ -17,6 +17,9 @@ What needs to be done?
 2. Create interactive API documentation.
 3. Implement page for the list, as well as a page for the publisher's personal account.
 
+Special technical requirements.
+- Store list of book authors in JSON.
+
 ## Design principles
 
 Over the years of programming, I have come to the conclusion that the minimum result of my work should be **readable code**.
