@@ -59,6 +59,8 @@ class BookDataTable extends DataTable
 
             });
 
+            $query->orWhereRaw('LOWER(authors_text) LIKE ' . $likeVal);
+            
         });
 
     }
