@@ -2,12 +2,9 @@
 
 namespace Tests\Feature\Front;
 
-
 use App\Front\Publisher\Events\PublisherTokenRefreshEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
-//use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\Rules\Password;
 
 class AuthTest extends TestCaseFront
 {

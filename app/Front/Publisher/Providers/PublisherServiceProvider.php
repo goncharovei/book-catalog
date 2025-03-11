@@ -10,7 +10,11 @@ use App\Front\Publisher\Service\PublisherToken\PublisherTokenService;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class PublisherServiceProvider extends ServiceProvider
@@ -28,6 +32,12 @@ class PublisherServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->events();
+        $this->authUrls();
+    }
+
+    private function events(): void
+    {
         Event::listen(
             events: [PublisherTokenRefreshEvent::class],
             listener: PublisherTokenRefreshListener::class
@@ -42,12 +52,26 @@ class PublisherServiceProvider extends ServiceProvider
             events: [Registered::class],
             listener: PublisherRegisteredListener::class
         );
+    }
 
+    private function authUrls(): void
+    {
         ResetPassword::createUrlUsing(function ($notifiable, $token) {
             return url(route('publisher.auth.password.reset', [
                 'token' => $token,
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
+        });
+
+        VerifyEmail::createUrlUsing(function ($notifiable) {
+            return URL::temporarySignedRoute(
+                'publisher.auth.verification.verify',
+                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+                [
+                    'id' => $notifiable->getKey(),
+                    'hash' => sha1($notifiable->getEmailForVerification()),
+                ]
+            );
         });
     }
 }

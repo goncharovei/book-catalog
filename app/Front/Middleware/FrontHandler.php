@@ -5,11 +5,13 @@ namespace App\Front\Middleware;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 final class FrontHandler
 {
     private array $aliases = [
-        'ajax' => AjaxMiddleware::class
+        'ajax' => AjaxMiddleware::class,
+        'anti-spam' => ProtectAgainstSpam::class
     ];
 
     public function __construct(private readonly Middleware $middleware)
