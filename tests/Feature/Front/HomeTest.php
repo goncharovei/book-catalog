@@ -22,16 +22,21 @@ class HomeTest extends TestCase
         $this->get(route('book.list'))->assertOk();
     }
 
-    public function testBookList(): void
+    public function testGetBookList(): void
     {
+        $requestData = [
+            'search' => ['value' => 'test']
+        ];
+
         $response = $this
             ->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
-            ->getJson(route('book.data-table-items'));
+            ->getJson(route('book.data-table-items', $requestData));
 
         $response->assertOk()->assertJsonStructure([
             'data' => [],
             'input' => []
         ]);
+
     }
 
 }
