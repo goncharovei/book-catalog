@@ -9,6 +9,7 @@ use App\Front\Publisher\Listeners\PublisherTokenRefreshListener;
 use App\Front\Publisher\Service\PublisherToken\PublisherTokenService;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,5 +43,11 @@ class PublisherServiceProvider extends ServiceProvider
             listener: PublisherRegisteredListener::class
         );
 
+        ResetPassword::createUrlUsing(function ($notifiable, $token) {
+            return url(route('publisher.auth.password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ], false));
+        });
     }
 }
