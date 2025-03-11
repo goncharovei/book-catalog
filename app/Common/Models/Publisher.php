@@ -2,7 +2,7 @@
 
 namespace App\Common\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,7 +23,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Collection $books
  *
  */
-class Publisher extends Authenticatable
+class Publisher extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\Common\Models\PublisherFactory> */
     use HasFactory, Notifiable, HasApiTokens;

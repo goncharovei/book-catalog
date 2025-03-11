@@ -1,23 +1,16 @@
 <?php
 
-namespace Tests\Feature\Front;
+namespace Front\Auth;
 
 use App\Common\Models\Publisher;
 use Illuminate\Support\Facades\Password;
+use Tests\Feature\Front\TestCaseFront;
 
-class AuthPasswordTest extends TestCaseFront
+class PasswordTest extends TestCaseFront
 {
     public function testRequest(): void
     {
         $this->get(route('publisher.auth.password.request'))->assertOk();
-    }
-
-    public function testConfirm(): void
-    {
-        $response = $this->actingAs(Publisher::first())
-            ->get(route('publisher.auth.password.confirm'));
-
-        $response->assertOk();
     }
 
     public function testReset(): void

@@ -11,7 +11,7 @@ Route::middleware(['ajax', 'json'])->group(function (){
 
 Route::name('publisher.auth.')->group(function () {
     Route::namespace('App\Front\Publisher\Http\Controllers')->group(function () {
-        Auth::routes();
+        Auth::routes(['verify' => true]);
     });
 });
 

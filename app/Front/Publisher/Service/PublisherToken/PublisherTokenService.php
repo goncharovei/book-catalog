@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\NewAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
 
-final readonly class PublisherTokenService
+final class PublisherTokenService
 {
     private Publisher $publisher;
     private PublisherTokenCache $cache;
