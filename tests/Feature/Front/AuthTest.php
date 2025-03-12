@@ -2,10 +2,11 @@
 
 namespace Tests\Feature\Front;
 
-use App\Front\Publisher\Events\PublisherTokenRefreshEvent;
+use App\Front\Publisher\Jobs\PublisherTokenCreateJob;
 use App\Front\Publisher\Mail\PublisherRegisteredMail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -43,11 +44,10 @@ class AuthTest extends TestCaseFront
         $this->assertAuthenticated();
 
         Event::assertDispatched(Registered::class);
-        Event::assertDispatched(PublisherTokenRefreshEvent::class);
 
         Mail::assertNotSent(PublisherRegisteredMail::class);
         Notification::assertNotSentTo(Auth::user(), VerifyEmail::class);
-        Queue::assertNothingPushed();
+        Queue::assertPushed(PublisherTokenCreateJob::class);
 
         $response->assertRedirect();
     }

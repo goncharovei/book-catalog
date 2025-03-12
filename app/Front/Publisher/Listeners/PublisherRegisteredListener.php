@@ -4,10 +4,11 @@ namespace App\Front\Publisher\Listeners;
 
 use App\Common\Models\Publisher;
 use App\Front\Publisher\Mail\PublisherRegisteredMail;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 
-class PublisherRegisteredListener
+class PublisherRegisteredListener implements ShouldQueue
 {
     /**
      * Create the event listener.

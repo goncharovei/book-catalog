@@ -3,8 +3,8 @@
 namespace App\Front\Publisher\Http\Controllers\Auth;
 
 use App\Common\Models\Publisher;
-use App\Front\Publisher\Events\PublisherTokenRefreshEvent;
 use App\Front\Publisher\Http\Controllers\Controller;
+use App\Front\Publisher\Jobs\PublisherTokenCreateJob;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
@@ -60,7 +60,7 @@ class RegisterController extends Controller
         {
             event(new Registered($user = $this->create($request->all())));
             $this->guard()->login($user);
-            PublisherTokenRefreshEvent::dispatch();
+            PublisherTokenCreateJob::dispatch($user);
         });
 
         if ($response = $this->registered($request, $user)) {

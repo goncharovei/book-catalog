@@ -2,12 +2,8 @@
 
 namespace App\Front\Publisher\Providers;
 
-use App\Front\Publisher\Events\PublisherTokenRefreshEvent;
-use App\Front\Publisher\Listeners\PublisherAuthenticatedListener;
 use App\Front\Publisher\Listeners\PublisherRegisteredListener;
-use App\Front\Publisher\Listeners\PublisherTokenRefreshListener;
 use App\Front\Publisher\Service\PublisherToken\PublisherTokenService;
-use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -38,16 +34,6 @@ class PublisherServiceProvider extends ServiceProvider
 
     private function events(): void
     {
-        Event::listen(
-            events: [PublisherTokenRefreshEvent::class],
-            listener: PublisherTokenRefreshListener::class
-        );
-
-        Event::listen(
-            events: [Authenticated::class],
-            listener: PublisherAuthenticatedListener::class
-        );
-
         Event::listen(
             events: [Registered::class],
             listener: PublisherRegisteredListener::class

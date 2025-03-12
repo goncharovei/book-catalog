@@ -4,6 +4,8 @@ namespace App\Front\Publisher\Service\PublisherToken;
 
 use App\Common\Models\Publisher;
 use App\Front\Publisher\Service\AbilityPublisher;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\NewAccessToken;
@@ -14,10 +16,14 @@ final class PublisherTokenService
     private Publisher $publisher;
     private PublisherTokenCache $cache;
 
-    public function setDependencies(Publisher $publisher, PublisherTokenCache $cache): PublisherTokenService
+    public function setDependencies(Publisher $publisher): PublisherTokenService
     {
         $this->publisher = $publisher;
-        $this->cache = $cache;
+        $this->cache = resolve(PublisherTokenCache::class, [
+            'cache' => Cache::store(),
+            'crypt' => Crypt::getFacadeRoot(),
+            'publisherId' => $this->publisher->id
+        ]);
 
         return $this;
     }

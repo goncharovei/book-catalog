@@ -3,11 +3,8 @@
 namespace Database\Factories\Common\Models;
 
 use App\Common\Models\Publisher;
-use App\Front\Publisher\Service\PublisherToken\PublisherTokenCache;
-use App\Front\Publisher\Service\PublisherToken\PublisherTokenService;
+use App\Front\Publisher\Jobs\PublisherTokenCreateJob;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -60,15 +57,7 @@ class PublisherFactory extends Factory
             // ...
         })->afterCreating(function (Publisher $publisher)
         {
-            $tokenService = resolve(PublisherTokenService::class);
-            $tokenService->setDependencies(
-                $publisher,
-                resolve(PublisherTokenCache::class, [
-                    'cache' => Cache::store(),
-                    'crypt' => Crypt::getFacadeRoot(),
-                    'publisherId' => $publisher->id
-                ])
-            )->create();
+            PublisherTokenCreateJob::dispatchSync($publisher);
         });
     }
 }
