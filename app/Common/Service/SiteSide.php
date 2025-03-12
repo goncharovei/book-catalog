@@ -2,8 +2,6 @@
 
 namespace App\Common\Service;
 
-use Illuminate\Http\Request;
-
 final class SiteSide
 {
     private static ?SiteSide $instance = null;
@@ -18,6 +16,11 @@ final class SiteSide
         }
 
         return self::$instance;
+    }
+
+    public static function flush(): void
+    {
+        self::$instance = null;
     }
 
     public function isFront(): bool
@@ -45,7 +48,7 @@ final class SiteSide
     private function setFlags(): void
     {
         $segments = $this->urlSegments();
-        if ($segments === null)
+        if (empty($segments))
         {
             return;
         }
@@ -58,17 +61,13 @@ final class SiteSide
     {
         if (empty($_SERVER['REQUEST_URI']))
         {
-            if (!class_exists(Request::class, autoload: false))
-            {
-                return null;
-            }
-            $segments = request()->segments();
-        } else {
-            $segments = explode('/', rawurldecode($_SERVER['REQUEST_URI']));
-            $segments = array_values(array_filter($segments, function ($value) {
-                return $value !== '';
-            }));
+            return null;
         }
+
+        $segments = explode('/', rawurldecode($_SERVER['REQUEST_URI']));
+        $segments = array_values(array_filter(array_map('trim', $segments), function ($value) {
+            return !empty($value);
+        }));
 
         return array_map('strtolower', $segments);
     }
