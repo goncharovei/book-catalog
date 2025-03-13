@@ -3,8 +3,8 @@
 namespace Tests\Feature\Front;
 
 use App\Front\Publisher\Mail\PublisherRegisteredMail;
+use App\Front\Publisher\Notifications\PublisherVerifyEmailNotification;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -44,7 +44,7 @@ class AuthTest extends TestCaseFront
         Event::assertDispatched(Registered::class);
 
         Mail::assertNotSent(PublisherRegisteredMail::class);
-        Notification::assertNotSentTo(Auth::user(), VerifyEmail::class);
+        Notification::assertNotSentTo(Auth::user(), PublisherVerifyEmailNotification::class);
         Queue::assertNothingPushed();
 
         $response->assertRedirect();

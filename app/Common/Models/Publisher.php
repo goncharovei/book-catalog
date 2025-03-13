@@ -2,6 +2,7 @@
 
 namespace App\Common\Models;
 
+use App\Front\Publisher\Notifications\PublisherVerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -66,4 +67,10 @@ class Publisher extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Book::class);
     }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new PublisherVerifyEmailNotification);
+    }
+
 }
