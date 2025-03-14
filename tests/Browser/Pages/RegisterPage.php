@@ -4,14 +4,14 @@ namespace Tests\Browser\Pages;
 
 use Laravel\Dusk\Browser;
 
-class HomePage extends Page
+class RegisterPage extends Page
 {
     /**
      * Get the URL for the page.
      */
     public function url(): string
     {
-        return route('book.list', absolute: false);
+        return route('publisher.auth.register', absolute: false);
     }
 
     /**

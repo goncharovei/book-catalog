@@ -19,6 +19,7 @@ What needs to be done?
 
 Special technical requirements.
 - Store list of book authors in JSON.
+- Cover the functionality and API of the catalog with tests.
 
 ## Design principles
 

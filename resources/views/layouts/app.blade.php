@@ -32,7 +32,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul dusk="navigation-list" class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
                             <a class="nav-link" target="_blank" href="{{ route('swagger.index') }}">{{ __('API') }}</a>
@@ -82,6 +82,11 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <footer class="py-3 my-4">
+            <p class="text-center text-body-secondary">© {{ date('Y') }} Company, Inc</p>
+        </footer>
+
     </div>
 
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

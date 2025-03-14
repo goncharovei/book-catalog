@@ -16,7 +16,7 @@ class CabinetController extends Controller
     {
         $this->middleware(function (Request $request, Closure $next): Response
         {
-           $this->tokenService->setDependencies($request->user());
+            $this->tokenService->setDependencies($request->user());
             return $next($request);
         });
     }
