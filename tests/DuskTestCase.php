@@ -5,15 +5,12 @@ namespace Tests;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Collection;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
 
 abstract class DuskTestCase extends BaseTestCase
 {
-    use DatabaseTransactions;
-
     /**
      * Prepare for Dusk test execution.
      */
@@ -22,6 +19,16 @@ abstract class DuskTestCase extends BaseTestCase
     {
         if (! static::runningInSail()) {
             static::startChromeDriver(['--port=9515']);
+        }
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        foreach (static::$browsers as $browser)
+        {
+            $browser->driver->manage()->deleteAllCookies();
         }
     }
 
