@@ -3,7 +3,7 @@
 namespace Tests\Browser;
 
 use Laravel\Dusk\Browser;
-use Tests\Browser\Pages\ApiPage;
+use Tests\Browser\Components\Navigation;
 use Tests\Browser\Pages\HomePage;
 use Tests\Browser\Pages\LoginPage;
 use Tests\Browser\Pages\RegisterPage;
@@ -11,7 +11,7 @@ use Tests\DuskTestCase;
 
 class HomeTest extends DuskTestCase
 {
-    public function testMain(): void
+    public function testMainShow(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(new HomePage())
@@ -19,14 +19,16 @@ class HomeTest extends DuskTestCase
         });
     }
 
-    public function testApi(): void
+    public function testApiLink(): void
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit(new ApiPage());
+            $browser->visit(new HomePage())->within(new Navigation(), function (Browser $browser) {
+                $browser->assertSee('API');
+            });
         });
     }
 
-    public function testLogin(): void
+    public function testLoginShow(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(new HomePage())
@@ -35,7 +37,7 @@ class HomeTest extends DuskTestCase
         });
     }
 
-    public function testRegister(): void
+    public function testRegisterShow(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(new HomePage())
