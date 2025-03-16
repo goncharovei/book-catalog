@@ -1,5 +1,6 @@
 <?php
 
+use App\Common\Commands\CommandHandler;
 use App\Common\Helper\Site;
 use App\Common\Http\Middleware\MiddlewareHandler;
 use App\Common\Exceptions\ExceptionHandler;
@@ -13,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: Site::APP_HEALTH_UP_URL,
     )
+    ->withCommands(call_user_func(resolve(
+        CommandHandler::class
+    )))
     ->withMiddleware(resolve(
         MiddlewareHandler::class,
         ['siteSide' => SiteSide::getInstance()]
