@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         Publisher::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'password' => env('SEEDER_PUBLISHER_PASSWORD')
+            'password' => env('PUBLISHER_DEFAULT_PASSWORD')
         ]);
     }
 }

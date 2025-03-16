@@ -2,18 +2,12 @@
 
 namespace App\Common\Http\Middleware;
 
-use Illuminate\Foundation\Configuration\Middleware;
 
-final class AppHandler
+final class AppHandler extends Middleware
 {
-    private array $aliases = [
+    protected static array $aliases = [
         'json' => JsonMiddleware::class
     ];
-
-    public function __construct(private readonly Middleware $middleware)
-    {
-        $this->middleware->alias($this->aliases);
-    }
 
     public function handler(): void
     {

@@ -18,7 +18,7 @@ class BookUpdatePartialRequest extends BookRequest
         }, ARRAY_FILTER_USE_BOTH);
         if (empty($rules))
         {
-            throw new \InvalidArgumentException('The request does not contain any of the fields ' . implode(', ', array_keys($rules)));
+            throw new \InvalidArgumentException('The request does not contain any of the fields ' . implode(', ', array_keys(parent::rules())));
         }
 
         return $rules;

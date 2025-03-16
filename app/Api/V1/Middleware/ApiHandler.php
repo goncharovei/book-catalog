@@ -2,24 +2,16 @@
 
 namespace App\Api\V1\Middleware;
 
-use Illuminate\Foundation\Configuration\Middleware;
+use App\Common\Http\Middleware\Middleware;
 use Laravel\Sanctum\Http\Middleware\CheckAbilities;
 use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
 
-final class ApiHandler
+final class ApiHandler extends Middleware
 {
-    private array $aliases = [
+    protected static array $aliases = [
         'abilities' => CheckAbilities::class,
         'ability' => CheckForAnyAbility::class,
     ];
-
-    public function __construct(private readonly Middleware $middleware)
-    {
-        $this->middleware->alias(array_merge(
-            $this->middleware->getMiddlewareAliases(),
-            $this->aliases
-        ));
-    }
 
     public function handler(): void
     {

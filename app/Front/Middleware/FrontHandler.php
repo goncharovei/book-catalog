@@ -2,25 +2,17 @@
 
 namespace App\Front\Middleware;
 
-use Illuminate\Foundation\Configuration\Middleware;
+use App\Common\Http\Middleware\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
-final class FrontHandler
+final class FrontHandler extends Middleware
 {
-    private array $aliases = [
+    protected static array $aliases = [
         'ajax' => AjaxMiddleware::class,
         'anti-spam' => ProtectAgainstSpam::class
     ];
-
-    public function __construct(private readonly Middleware $middleware)
-    {
-        $this->middleware->alias(array_merge(
-            $this->middleware->getMiddlewareAliases(),
-            $this->aliases
-        ));
-    }
 
     public function handler(): void
     {

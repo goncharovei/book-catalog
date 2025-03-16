@@ -19,7 +19,7 @@ class CabinetTest extends DuskTestCase
             $publisher = Publisher::first();
             $browser->visit(new LoginPage())
                 ->type('email', $publisher->email)
-                ->type('password', env('SEEDER_PUBLISHER_PASSWORD'))
+                ->type('password', env('PUBLISHER_DEFAULT_PASSWORD'))
                 ->click('@btn-submit')
                 ->waitForRoute('publisher.cabinet.index')
                 ->on(new CabinetPage());

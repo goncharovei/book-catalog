@@ -15,7 +15,7 @@ class BookSeeder extends Seeder
     {
         Book::factory()
             ->count(20)
-            ->for(Publisher::factory(['password' => env('SEEDER_PUBLISHER_PASSWORD')]))
+            ->for(Publisher::factory(['password' => env('PUBLISHER_DEFAULT_PASSWORD')]))
             ->create();
     }
 }
