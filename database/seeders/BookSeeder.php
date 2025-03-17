@@ -13,9 +13,12 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-        Book::factory()
-            ->count(20)
-            ->for(Publisher::factory(['password' => env('PUBLISHER_DEFAULT_PASSWORD')]))
-            ->create();
+        Publisher::all()->each(function (Publisher $publisher){
+            Book::factory()
+                ->count(fake()->numberBetween(100, 500))
+                ->for($publisher)
+                ->create();
+        });
+
     }
 }
