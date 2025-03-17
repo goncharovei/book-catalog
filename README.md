@@ -2,6 +2,8 @@
 
 This is a project that showcases my Frontend and Backend skills. For example, implementing an API and several public, private user pages.
 
+Implementation details in the project's [Wiki](https://github.com/goncharovei/book-catalog/wiki).
+
 ## General concept of the project
 
 Let's assume that there is a book catalog website (hereinafter referred to as the Catalog).
