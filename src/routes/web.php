@@ -2,6 +2,7 @@
 
 use App\Front\Book\Http\Controllers\HomeController;
 use App\Front\Publisher\Http\Controllers\CabinetController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('book.list');
