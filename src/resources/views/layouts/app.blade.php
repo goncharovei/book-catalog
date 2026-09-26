@@ -32,7 +32,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul dusk="navigation-list" class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
                             <a class="nav-link" target="_blank" href="{{ route('swagger.index') }}">{{ __('API') }}</a>
@@ -51,7 +51,7 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
 

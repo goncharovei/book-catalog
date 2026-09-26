@@ -143,14 +143,6 @@ test: ## Run PHPUnit
 test-filter: ## Run a specific test: make test-filter F=BookTest
 	docker compose exec app php artisan test --filter=$(F)
 
-.PHONY: dusk-driver
-dusk-driver: ## Install ChromeDriver for Dusk
-	docker compose exec app php artisan dusk:chrome-driver --detect
-
-.PHONY: dusk
-dusk: ## Run Laravel Dusk
-	docker compose exec app php artisan dusk
-
 # ==============================================================
 #  Reset
 # ==============================================================
