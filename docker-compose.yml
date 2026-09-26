@@ -23,8 +23,10 @@ services:
     networks:
       - book-catalog-network
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
   web:
     image: nginx:alpine
@@ -55,6 +57,12 @@ services:
       - "3306:3306"
     networks:
       - book-catalog-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD:-secret}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   redis:
     image: redis:alpine

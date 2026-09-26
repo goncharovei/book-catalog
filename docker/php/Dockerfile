@@ -25,12 +25,10 @@ RUN docker-php-ext-install \
     gd \
     zip
 
-# Redis через PECL (с обновлением каналов)
-RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
-    && pecl channel-update pecl.php.net \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && apk del .build-deps
+# Устанавливаем Redis через install-php-extensions
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions \
+    && install-php-extensions redis
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

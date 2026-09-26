@@ -4,7 +4,7 @@ set -e
 echo "==> Starting entrypoint..."
 
 # ------------------------------------------------------------------
-# 1. Проверяем наличие .env
+# Проверяем наличие .env
 # ------------------------------------------------------------------
 if [ ! -f /var/www/.env ]; then
     if [ -f /var/www/.env.example ]; then
@@ -16,7 +16,7 @@ if [ ! -f /var/www/.env ]; then
 fi
 
 # ------------------------------------------------------------------
-# 2. Устанавливаем composer-зависимости, если vendor пуст
+# Устанавливаем composer-зависимости, если vendor пуст
 # ------------------------------------------------------------------
 if [ ! -f /var/www/vendor/autoload.php ]; then
     echo "==> Installing composer dependencies..."
@@ -26,7 +26,7 @@ else
 fi
 
 # ------------------------------------------------------------------
-# 3. Устанавливаем node-зависимости и собираем фронт (если есть)
+# Устанавливаем node-зависимости и собираем фронт (если есть)
 # ------------------------------------------------------------------
 if [ -f /var/www/package.json ]; then
     # Устанавливаем node_modules, если их нет
@@ -52,26 +52,7 @@ if [ -f /var/www/package.json ]; then
 fi
 
 # ------------------------------------------------------------------
-# 4. Ждём готовности MySQL
-# ------------------------------------------------------------------
-if [ -n "$DB_HOST" ]; then
-    echo "==> Waiting for MySQL at $DB_HOST:${DB_PORT:-3306}..."
-    MAX_TRIES=30
-    TRIES=0
-    until mysqladmin ping -h"$DB_HOST" -P"${DB_PORT:-3306}" -u"$DB_USERNAME" -p"$DB_PASSWORD" --silent 2>/dev/null; do
-        TRIES=$((TRIES + 1))
-        if [ "$TRIES" -ge "$MAX_TRIES" ]; then
-            echo "==> ERROR: MySQL is not responding after $MAX_TRIES attempts. Continuing anyway..."
-            break
-        fi
-        echo "    ...waiting ($TRIES/$MAX_TRIES)"
-        sleep 2
-    done
-    echo "==> MySQL is up."
-fi
-
-# ------------------------------------------------------------------
-# 5. Генерируем APP_KEY, если его нет
+# Генерируем APP_KEY, если его нет
 # ------------------------------------------------------------------
 if [ -f /var/www/.env ] && ! grep -q "^APP_KEY=base64:" /var/www/.env; then
     echo "==> Generating application key..."
@@ -79,7 +60,7 @@ if [ -f /var/www/.env ] && ! grep -q "^APP_KEY=base64:" /var/www/.env; then
 fi
 
 # ------------------------------------------------------------------
-# 6. Выполняем миграции (можно отключить через RUN_MIGRATIONS=false)
+# Выполняем миграции (можно отключить через RUN_MIGRATIONS=false)
 # ------------------------------------------------------------------
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
     echo "==> Running migrations..."
@@ -87,14 +68,14 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
 fi
 
 # ------------------------------------------------------------------
-# 7. Права на storage и bootstrap/cache
+# Права на storage и bootstrap/cache
 # ------------------------------------------------------------------
 echo "==> Fixing permissions..."
 chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache 2>/dev/null || true
 chmod -R 775 /var/www/storage /var/www/bootstrap/cache 2>/dev/null || true
 
 # ------------------------------------------------------------------
-# 8. Очищаем и прогреваем кэш (опционально)
+# Очищаем и прогреваем кэш (опционально)
 # ------------------------------------------------------------------
 if [ "${CACHE_WARMUP:-false}" = "true" ]; then
     echo "==> Warming up caches..."
@@ -106,6 +87,6 @@ fi
 echo "==> Entrypoint finished. Starting: $@"
 
 # ------------------------------------------------------------------
-# 9. Передаём управление основной команде (php-fpm)
+# Передаём управление основной команде (php-fpm)
 # ------------------------------------------------------------------
 exec "$@"
