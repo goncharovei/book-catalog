@@ -1,6 +1,6 @@
 FROM php:8.2-fpm-alpine
 
-# Системные зависимости
+# System dependencies
 RUN apk add --no-cache \
     git \
     curl \
@@ -15,7 +15,7 @@ RUN apk add --no-cache \
     npm \
     bash
 
-# PHP расширения
+# PHP extensions
 RUN docker-php-ext-install \
     pdo_mysql \
     mbstring \
@@ -25,7 +25,7 @@ RUN docker-php-ext-install \
     gd \
     zip
 
-# Устанавливаем Redis через install-php-extensions
+# Install Redis via install-php-extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions \
     && install-php-extensions redis
@@ -39,11 +39,8 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 WORKDIR /var/www
 
-# Копируем исходники (для первого билда, чтобы был composer.json)
+# Copy sources (for the first build, so composer.json is available)
 COPY src/ .
-
-# Убираем composer install из сборки — он теперь в entrypoint
-# RUN composer install ...
 
 EXPOSE 9000
 

@@ -5,16 +5,16 @@
 .DEFAULT_GOAL := help
 SHELL := /bin/bash
 
-# Цвета для вывода
+# Colors for output
 GREEN  := \033[0;32m
 YELLOW := \033[0;33m
 CYAN   := \033[0;36m
 RESET  := \033[0m
 
 .PHONY: help
-help: ## Показать список команд
+help: ## Show available commands
 	@printf "\n"
-	@printf "$(CYAN)Book Catalog — доступные команды$(RESET)\n"
+	@printf "$(CYAN)Book Catalog — available commands$(RESET)\n"
 	@printf "\n"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-18s$(RESET) %s\n", $$1, $$2}'
@@ -24,142 +24,142 @@ help: ## Показать список команд
 #  Docker lifecycle
 # ==============================================================
 .PHONY: up
-up: ## Запустить контейнеры
+up: ## Start containers
 	docker compose up -d
 
 .PHONY: down
-down: ## Остановить и удалить контейнеры
+down: ## Stop and remove containers
 	docker compose down
 
 .PHONY: restart
-restart: ## Перезапустить контейнеры
+restart: ## Restart containers
 	docker compose restart
 
 .PHONY: build
-build: ## Пересобрать образы без кэша
+build: ## Rebuild images without cache
 	docker compose build --no-cache
 
 .PHONY: rebuild
-rebuild: ## Полная пересборка: down + build + up
+rebuild: ## Full rebuild: down + build + up
 	docker compose down
 	docker compose build --no-cache
 	docker compose up -d
 
 .PHONY: ps
-ps: ## Показать статус контейнеров
+ps: ## Show container status
 	docker compose ps
 
 .PHONY: logs
-logs: ## Смотреть логи app
+logs: ## Follow app logs
 	docker compose logs -f app
 
 .PHONY: logs-all
-logs-all: ## Смотреть логи всех сервисов
+logs-all: ## Follow logs of all services
 	docker compose logs -f
 
 # ==============================================================
 #  Shell access
 # ==============================================================
 .PHONY: sh
-sh: ## Зайти в контейнер app
+sh: ## Open a shell in the app container
 	docker compose exec app bash
 
 .PHONY: sh-db
-sh-db: ## Зайти в MySQL
+sh-db: ## Open MySQL shell
 	docker compose exec db mysql -u book_catalog -psecret book_catalog
 
 .PHONY: sh-redis
-sh-redis: ## Зайти в Redis CLI
+sh-redis: ## Open Redis CLI
 	docker compose exec redis redis-cli
 
 # ==============================================================
 #  Laravel
 # ==============================================================
 .PHONY: migrate
-migrate: ## Запустить миграции
+migrate: ## Run migrations
 	docker compose exec app php artisan migrate
 
 .PHONY: seed
-seed: ## Заполнить БД сидерами
+seed: ## Seed the database
 	docker compose exec app php artisan db:seed
 
 .PHONY: fresh
-fresh: ## Пересоздать БД и заполнить сидерами
+fresh: ## Recreate the database and seed it
 	docker compose exec app php artisan migrate:fresh --seed
 
 .PHONY: rollback
-rollback: ## Откатить последнюю миграцию
+rollback: ## Roll back the last migration
 	docker compose exec app php artisan migrate:rollback
 
 .PHONY: key
-key: ## Сгенерировать APP_KEY
+key: ## Generate APP_KEY
 	docker compose exec app php artisan key:generate
 
 .PHONY: cache-clear
-cache-clear: ## Очистить весь кэш
+cache-clear: ## Clear all caches
 	docker compose exec app php artisan optimize:clear
 
 .PHONY: cache-warm
-cache-warm: ## Прогреть кэш (config, route, view)
+cache-warm: ## Warm up caches (config, route, view)
 	docker compose exec app php artisan config:cache
 	docker compose exec app php artisan route:cache
 	docker compose exec app php artisan view:cache
 
 .PHONY: storage-link
-storage-link: ## Создать symlink storage
+storage-link: ## Create the storage symlink
 	docker compose exec app php artisan storage:link
 
 .PHONY: tinker
-tinker: ## Открыть Laravel Tinker
+tinker: ## Open Laravel Tinker
 	docker compose exec app php artisan tinker
 
 # ==============================================================
 #  Dependencies
 # ==============================================================
 .PHONY: composer
-composer: ## Установить composer-зависимости
+composer: ## Install composer dependencies
 	docker compose exec app composer install
 
 .PHONY: composer-update
-composer-update: ## Обновить composer-зависимости
+composer-update: ## Update composer dependencies
 	docker compose exec app composer update
 
 .PHONY: npm
-npm: ## Установить npm-зависимости
+npm: ## Install npm dependencies
 	docker compose exec app npm install
 
 .PHONY: build-assets
-build-assets: ## Собрать фронтенд
+build-assets: ## Build frontend assets
 	docker compose exec app npm run build
 
 # ==============================================================
 #  Tests
 # ==============================================================
 .PHONY: test
-test: ## Запустить PHPUnit
+test: ## Run PHPUnit
 	docker compose exec app php artisan test
 
 .PHONY: test-filter
-test-filter: ## Запустить конкретный тест: make test-filter F=BookTest
+test-filter: ## Run a specific test: make test-filter F=BookTest
 	docker compose exec app php artisan test --filter=$(F)
 
 .PHONY: dusk-driver
-dusk-driver: ## Установить ChromeDriver для Dusk
+dusk-driver: ## Install ChromeDriver for Dusk
 	docker compose exec app php artisan dusk:chrome-driver --detect
 
 .PHONY: dusk
-dusk: ## Запустить Laravel Dusk
+dusk: ## Run Laravel Dusk
 	docker compose exec app php artisan dusk
 
 # ==============================================================
 #  Reset
 # ==============================================================
 .PHONY: reset
-reset: ## Полный сброс: удалить volumes и пересобрать
+reset: ## Full reset: remove volumes and rebuild
 	docker compose down -v
 	docker compose build --no-cache
 	docker compose up -d
 
 .PHONY: clean
-clean: ## Удалить неиспользуемые docker-объекты
+clean: ## Remove unused Docker objects
 	docker system prune -f

@@ -4,7 +4,7 @@ set -e
 echo "==> Starting entrypoint..."
 
 # ------------------------------------------------------------------
-# Проверяем наличие .env
+# Check if .env exists
 # ------------------------------------------------------------------
 if [ ! -f /var/www/.env ]; then
     if [ -f /var/www/.env.example ]; then
@@ -16,7 +16,7 @@ if [ ! -f /var/www/.env ]; then
 fi
 
 # ------------------------------------------------------------------
-# Устанавливаем composer-зависимости, если vendor пуст
+# Install composer dependencies if vendor is empty
 # ------------------------------------------------------------------
 if [ ! -f /var/www/vendor/autoload.php ]; then
     echo "==> Installing composer dependencies..."
@@ -26,10 +26,10 @@ else
 fi
 
 # ------------------------------------------------------------------
-# Устанавливаем node-зависимости и собираем фронт (если есть)
+# Install node dependencies and build frontend assets (if any)
 # ------------------------------------------------------------------
 if [ -f /var/www/package.json ]; then
-    # Устанавливаем node_modules, если их нет
+    # Install node_modules if missing
     if [ ! -d /var/www/node_modules ]; then
         echo "==> Installing npm dependencies..."
         npm install || { echo "==> ERROR: npm install failed."; }
@@ -37,7 +37,7 @@ if [ -f /var/www/package.json ]; then
         echo "==> npm dependencies already installed, skipping."
     fi
 
-    # Собираем фронт, если нет манифеста Vite
+    # Build frontend assets if the Vite manifest is missing
     if [ ! -f /var/www/public/build/manifest.json ]; then
         echo "==> Building frontend assets..."
         if npm run build; then
@@ -52,7 +52,7 @@ if [ -f /var/www/package.json ]; then
 fi
 
 # ------------------------------------------------------------------
-# Генерируем APP_KEY, если его нет
+# Generate APP_KEY if not set
 # ------------------------------------------------------------------
 if [ -f /var/www/.env ] && ! grep -q "^APP_KEY=base64:" /var/www/.env; then
     echo "==> Generating application key..."
@@ -60,7 +60,7 @@ if [ -f /var/www/.env ] && ! grep -q "^APP_KEY=base64:" /var/www/.env; then
 fi
 
 # ------------------------------------------------------------------
-# Выполняем миграции (можно отключить через RUN_MIGRATIONS=false)
+# Run migrations (can be disabled via RUN_MIGRATIONS=false)
 # ------------------------------------------------------------------
 if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
     echo "==> Running migrations..."
@@ -68,14 +68,14 @@ if [ "${RUN_MIGRATIONS:-true}" = "true" ]; then
 fi
 
 # ------------------------------------------------------------------
-# Права на storage и bootstrap/cache
+# Permissions for storage and bootstrap/cache
 # ------------------------------------------------------------------
 echo "==> Fixing permissions..."
 chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache 2>/dev/null || true
 chmod -R 775 /var/www/storage /var/www/bootstrap/cache 2>/dev/null || true
 
 # ------------------------------------------------------------------
-# Очищаем и прогреваем кэш (опционально)
+# Clear and warm up caches (optional)
 # ------------------------------------------------------------------
 if [ "${CACHE_WARMUP:-false}" = "true" ]; then
     echo "==> Warming up caches..."
@@ -87,6 +87,6 @@ fi
 echo "==> Entrypoint finished. Starting: $@"
 
 # ------------------------------------------------------------------
-# Передаём управление основной команде (php-fpm)
+# Exec main process (php-fpm)
 # ------------------------------------------------------------------
 exec "$@"
