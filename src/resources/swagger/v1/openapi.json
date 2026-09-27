@@ -443,10 +443,11 @@
     },
     "securitySchemes": {
       "BearerAuth": {
-        "type": "apiKey",
-        "name": "Authorization",
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
         "in": "header",
-        "description": "Authorization head with 'Bearer xxxxxxxxxxxxx' token"
+        "description": "Authorization head with 'xxxxxxxxxxxxx' token"
       }
     }
   },
