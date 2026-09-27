@@ -15,7 +15,7 @@ class JsonMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->wantsJson())
+        if (!$request->wantsJson() && $request->header('Accept') !== '*/*')
         {
             throw new \DomainException('Only JSON requests are supported.');
         }
