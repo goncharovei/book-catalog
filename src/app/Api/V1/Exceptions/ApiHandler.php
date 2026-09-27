@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
 final readonly class ApiHandler
 {
@@ -18,6 +19,11 @@ final readonly class ApiHandler
 
     public function handler(): void
     {
+        $this->exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
+            //return true for all API requests
+            return true;
+        });
+
         $this->exceptions->handler->respondUsing(function (Response $response, \Throwable $e, Request $request)
         {
             if (!($response instanceof JsonResponse))
@@ -34,6 +40,7 @@ final readonly class ApiHandler
 
             return $response->setData(compact('errors'));
         });
+
     }
 
     private function responseError(Response $response, \Throwable $e): array
