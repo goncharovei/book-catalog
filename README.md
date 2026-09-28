@@ -1,3 +1,5 @@
+[![Tests](https://github.com/goncharovei/book-catalog/actions/workflows/tests.yml/badge.svg)](https://github.com/goncharovei/book-catalog/actions/workflows/tests.yml)
+
 # Catalog of books.
 
 This is a project that showcases my Frontend and Backend skills. For example, implementing an API and several public, private user pages.
